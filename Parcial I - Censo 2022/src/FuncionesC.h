@@ -15,5 +15,6 @@
 void mostrarUnCensista(eCensista* list,int i);
 void printCensistas(eCensista* list,int len);
 int verifExisCensistaLegajo(eCensista* list, int len,int legajo);
+void mostrarInforme(eCensista* listC,int lenC,eVivienda* listV,int lenV);
 
 #endif /* FUNCIONESV_C_ */

@@ -13,27 +13,39 @@
 #include "FuncionesC.h"
 #include "Estructuras.h"
 
-#define TAM 20000
+#define TAM 2000
 
 int main(void) {
 
 	setbuf(stdout,NULL);
 	int option;
-	int id = TAM;
+	int id = 20000;
 	int fLegajo,sid,flagViviendas = 0;
 
 	eVivienda viviendas[TAM];
 	eVivienda ingresoViv;
 	eCensista censistas[3] = {{100, "Ana", 34, "1203-2345"}, {101, "Juan", 24, "4301-54678"}, {102, "Sol", 47, "5902-37487"}};
 	char respuesta[5];
+	int contadorA = 0,contadorJ = 0,contadorS = 0 ;
 	initVivienda(viviendas, TAM);
 
 	do{
-		option = MenuGeneral(0, "1.Alta Vivienda\n", "2.Modificar Vivienda\n", "3.Baja Vivienda\n", "4.Listar Viviendas\n", "5.Listar Censistas\n", "");
+		option = MenuGeneral(0, "1.Alta Vivienda\n", "2.Modificar Vivienda\n", "3.Baja Vivienda\n", "4.Listar Viviendas\n", "5.Listar Censistas\n", "6.Informes Censistas\n");
 		switch (option) {
 			case 1:
 				if(!(setVivData(&ingresoViv,censistas))){
 					if(addVivienda(viviendas, TAM, id, ingresoViv.calle, ingresoViv.cantidadPersonas, ingresoViv.cantidadHabitaciones, ingresoViv.tipoVivienda, ingresoViv.legajoCensista)){
+						switch(ingresoViv.legajoCensista){
+							case 100:
+								contadorA++;
+								break;
+							case 101:
+								contadorJ++;
+								break;
+							case 102:
+								contadorS++;
+								break;
+						}
 						id++;
 						ClearViv(&ingresoViv);
 						flagViviendas = 1;
@@ -71,6 +83,17 @@ int main(void) {
 						scanf("%d",&fLegajo);
 						sid = findViviendaByLegajo(viviendas, TAM, fLegajo);
 						if(sid != -1){
+							switch(viviendas[sid].legajoCensista){
+								case 100:
+									contadorA--;
+									break;
+								case 101:
+									contadorJ--;
+									break;
+								case 102:
+									contadorS--;
+									break;
+							}
 							removeVivienda(viviendas, TAM, sid);
 							verifRemovedAll(&flagViviendas, TAM,viviendas);
 						} else {
@@ -97,6 +120,28 @@ int main(void) {
 				printf("Escriba cualquier tecla para contiuar...");
 				fflush(stdin);
 				gets(respuesta);
+				break;
+			case 6:
+				if(flagViviendas){
+					mostrarInforme(censistas, 3, viviendas, TAM);
+						if(contadorA >= contadorJ && contadorJ >= contadorS){
+							printf("Ana hizo mas censos: %d",contadorA);
+
+						} else {
+							if(contadorJ >= contadorA && contadorA >= contadorS){
+								printf("Juan hizo mas censos: %d",contadorJ);
+
+							} else {
+								if(contadorS >= contadorJ && contadorS >= contadorA){
+									printf("Sol hizo mas censos: %d",contadorS);
+
+								}
+
+						}
+					}
+				} else {
+					printf("DEBE INGRESAR AL MENOS UNA VIVIENDA\n");
+				}
 				break;
 			default:
 				if(option != -1 && option != 0){

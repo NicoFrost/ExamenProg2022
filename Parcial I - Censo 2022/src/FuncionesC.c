@@ -7,6 +7,7 @@
 
 
 #include "FuncionesC.h"
+#include "FuncionesV.h"
 /**
  * @brief
  *
@@ -49,7 +50,12 @@ void mostrarUnCensista(eCensista* list,int i){
  * @param tamaño de la lista
  */
 void printCensistas(eCensista* list,int len){
-
+/*
+ * 100-Ana 34 años tel:1203-2345
+	idVivienda calle habitantes habitaciones tipo vivienda
+	20000 Salta 23 4 2 CASA
+	20001 Salta 27 2 1 DEPARTAMENTO
+ */
 	printf("-------------------------------------------------\n");
 	printf("|                   CENSISTAS                   |\n");
 	printf("|-----------------------------------------------|\n");
@@ -58,5 +64,27 @@ void printCensistas(eCensista* list,int len){
 		mostrarUnCensista(list, i);
 	}
 	printf("-------------------------------------------------\n");
+}
+
+
+// lo haria modificando la estructura y agregando un nuevo valor que diga cuantas viviendas tiene cada uno
+
+void mostrarInforme(eCensista* listC,int lenC,eVivienda* listV,int lenV){
+
+	int contadorViviendas;
+
+	for(int i = 0;i < lenC;i++){
+		printf("%d-%s %d años tel:%s\n",listC[i].legajoCensista,listC[i].Nombre,listC[i].edad,listC[i].telefono);
+		printf("---------------------------------------------------------------------------------------------------------------------------------\n");
+		printf("|  ID\t|\t   CALLE   \t|    CANT PERSONAS\t|    CANT HABITACIONES\t|    TIPO VIVIENDA\t|     LEGAJO CENSISTA\t|\n");
+		for(int j = 0;j < lenV;j++){
+			if(listV[j].legajoCensista == listC[i].legajoCensista){
+				contadorViviendas++;
+				MostrarUnaVivienda(listV, j);
+			}
+		}
+		printf("---------------------------------------------------------------------------------------------------------------------------------\n");
+		printf("\n");
+	}
 }
 
