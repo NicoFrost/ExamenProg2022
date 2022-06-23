@@ -14,17 +14,24 @@
 int controller_loadFromText(LinkedList* pLLService)
 {
 	FILE* pArchivo;
+	int retorno = -1;
 	char path[21] = " ";
 		printf("ingrese nombre del archivo separado por coma (sin su extension): ");
 		scanf("%s",path);
 		strcat(path,".csv");
-		printf("leyendo archivo: %s\n",path);
+		printf("\nleyendo archivo: %s\n",path);
 	pArchivo = fopen(path,"r");
 	if(pArchivo != NULL){
-		parser_ServiceFromText(pArchivo, pLLService);
+		retorno = parser_ServiceFromText(pArchivo, pLLService);
+		if(retorno != -1){
+			printf("\nDatos cargados correctamente!\n");
+		}
+	} else {
+		printf("ERROR, no se pudo abrir achivo o no se encontro\n");
+		retorno = -1;
 	}
 	fclose(pArchivo);
-	return 1;
+	return retorno;
 }
 
 /** \brief Listar pasajeros
@@ -39,18 +46,24 @@ int controller_listService(LinkedList* pLLService)
 
 	Servicios_list(pLLService);
 
-    return 1;
+    return 0;
 }
 
 int controller_assignTotal(LinkedList* pLLService){
 
-	pLLService = ll_map(pLLService,Servicios_calcularPrecioTotal);
-	return 1;
+	int retorno = -1;
+	if(pLLService != NULL){
+		pLLService = ll_map(pLLService,Servicios_calcularPrecioTotal);
+		if(pLLService != NULL){
+			retorno = 0;
+		}
+	}
+	return retorno;
 }
 
 int controller_createDataFiltred(char* path,LinkedList* pLLService){
 	FILE* pArchivo;
-	int retorno = 0;
+	int retorno = -1;
 	int filtro;
 
 	if(path != NULL && pLLService != NULL){
@@ -77,7 +90,7 @@ int controller_createDataFiltred(char* path,LinkedList* pLLService){
 						break;
 					}
 			if(GuardarTxt(pArchivo,linkfiltred)){
-				retorno = 1;
+				retorno = 0;
 			} else {
 				printf("ERROR, no se pudo escribir el archivo\n");
 			}
@@ -100,18 +113,21 @@ int controller_createDataFiltred(char* path,LinkedList* pLLService){
 int controller_sortlistServices(LinkedList* pLLService)
 {
 	LinkedList* sortList;
+	int retorno = -1;
 	if(pLLService != NULL){
 		sortList = ll_clone(pLLService);
 		if(sortList != NULL){
+			if(ll_sort(sortList,Service_sortByDescription, 1) != -1){
 
-		ll_sort(sortList,Service_sortByDescription, 1);
+				Servicios_list(sortList);
+				ll_deleteLinkedList(sortList);
 
-		Servicios_list(sortList);
-		ll_deleteLinkedList(sortList);
+				retorno = 0;
+			}
 		}
 	}
 
-    return 1;
+    return retorno;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
@@ -124,7 +140,7 @@ int controller_sortlistServices(LinkedList* pLLService)
 int controller_saveSortListServices(char* path , LinkedList* pLLService)
 {
 
-	int retorno = 0;
+	int retorno = -1;
 	FILE* pArchivo;
 	if(path != NULL && pLLService != NULL){
 		LinkedList* sortList = ll_clone(pLLService);
@@ -132,7 +148,7 @@ int controller_saveSortListServices(char* path , LinkedList* pLLService)
 		pArchivo = fopen(path,"w");
 		if(pArchivo != NULL && sortList != NULL){
 			if(GuardarTxt(pArchivo,sortList)){
-				retorno = 1;
+				retorno = 0;
 			} else {
 				printf("ERROR, no se pudo escribir el archivo\n");
 			}
@@ -141,6 +157,9 @@ int controller_saveSortListServices(char* path , LinkedList* pLLService)
 			printf("ERROR, no se pudo abrir el archivo\n");
 		}
 		ll_deleteLinkedList(sortList);
+		if(sortList == NULL){
+			retorno = 0;
+		}
 	}
 	return retorno;
 }

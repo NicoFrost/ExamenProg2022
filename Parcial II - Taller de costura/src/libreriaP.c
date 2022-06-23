@@ -30,7 +30,7 @@ int MenuGeneral(int submenu,char mensaje1[], char mensaje2[], char mensaje3[], c
 	char respuesta[20] = "";
 	int retorno;
 	int i = 0;
-	int tam = strlen(respuesta);
+	int tam;
 	do{
 		printf("\ningrese una opcion (en numeros)...\n");
 		printf("%s", mensaje1);
@@ -54,9 +54,10 @@ int MenuGeneral(int submenu,char mensaje1[], char mensaje2[], char mensaje3[], c
 		}
 		setbuf(stdin, NULL);
 		scanf("%s", respuesta);
+		tam = strlen(respuesta);
 		for(i = 0;i<tam;i++){
 			if(isalpha(respuesta[i])){
-				printf("ERROR,SOLO SE ADMITEN NUMEROS %d",tam);
+				printf("ERROR,SOLO SE ADMITEN NUMEROS");
 				retorno = -1;
 				break;
 			}
@@ -122,7 +123,6 @@ float IngresarFlotante(char mensaje[],int verif)
 void setString(char cadena[],char mensaje[],int tam)
 {
     char auxiliar[tam];
-    int i;
     printf("%s", mensaje);
     setbuf(stdin,NULL);
     scanf("%s", auxiliar);

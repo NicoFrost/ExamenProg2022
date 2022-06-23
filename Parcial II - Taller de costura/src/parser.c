@@ -21,7 +21,7 @@ int parser_ServiceFromText(FILE* pFile , LinkedList* pLLService)
 	char fprecioUnitario[TAM];
 	char fcantidad[TAM];
 	char fprecioTotal[TAM];
-
+	int retorno;
 	eServicios* servicioAux;
 
 	//Lectura Fantasma
@@ -31,7 +31,10 @@ int parser_ServiceFromText(FILE* pFile , LinkedList* pLLService)
 	do{
 		fscanf(pFile,"%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",fid,fdescripcion,ftipoServicio,fprecioUnitario,fcantidad,fprecioTotal);
 		servicioAux = Servicios_newParametros(fid, fdescripcion, ftipoServicio, fprecioUnitario, fcantidad, fprecioTotal);
-		ll_add(pLLService, servicioAux);
+		retorno = ll_add(pLLService, servicioAux);
+		if(retorno != 0){
+			break;
+		}
 	}while(!feof(pFile));
-	return 1;
+	return retorno;
 }
