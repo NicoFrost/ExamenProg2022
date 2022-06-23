@@ -14,8 +14,8 @@
 #define TAM 50
 
 /**
- * @brief crea en memoria dinamica un pasajero y lo setea vacio para luego ser llenado por otra funcion
- * @return pasajero vacio
+ * @brief crea en memoria dinamica un Servicio y lo setea vacio para luego ser llenado por otra funcion
+ * @return Servicio vacio
  */
 eServicios* Servicios_new(){
 
@@ -37,15 +37,14 @@ eServicios* Servicios_new(){
 
 
 /**
- * @brief usa funcion Servicios_new() para crear un pasajero y luego lo rellena con datos pasados por parametros
+ * @brief usa funcion Servicios_new() para crear un servicio y luego lo rellena con datos pasados por parametros
  * @param idStr id como string
- * @param nombreStr nombre
- * @param apellidoStr apellido
- * @param precioStr precio pasado como string
- * @param codigoStr codigo de vuelo
- * @param tipoPasajeroStr tipo de pasajero pasado como string (contertidos a texto)
- * @param estadoVueloStr estado de vuelo pasado como string (convertido a texto)
- * @return pasajero lleno con datos aportados por parametros
+ * @param descripcionStr descripcion del producto
+ * @param tipoStr tipo de servicio pasado como string (contertidos a texto)
+ * @param precioUnitarioStr precio unitario pasado como string
+ * @param cantidadStr cantidad pasado como string
+ * @param precioTotalStr precio total pasado como string
+ * @return servicio lleno con datos aportados por parametros
  */
 eServicios* Servicios_newParametros(char* idStr,char* descripcionStr,char* tipoStr,char* precioUnitarioStr,char* cantidadStr,char* precioTotalStr){
 
@@ -90,9 +89,9 @@ eServicios* Servicios_newParametros(char* idStr,char* descripcionStr,char* tipoS
 }
 
 /**
- * @brief obtiene datos y muestra 1 pasajero por pantalla
- * @param this pasajero a mostrar
- * @param pArrayListServicios LinkedList
+ * @brief obtiene datos y muestra 1 servcicio por pantalla
+ * @param pServicio servicio a mostrar
+ * @param pLLService LinkedList
  */
 void Servicios_OneServicios(eServicios* pServicio,LinkedList* pLLService){
 	int id,tipoAux,cantidad;
@@ -117,8 +116,8 @@ void Servicios_OneServicios(eServicios* pServicio,LinkedList* pLLService){
 	}
 }
 /**
- * @brief muestra una lista de todos los pasajeros
- * @param pArrayListServicios LinkedList
+ * @brief muestra una lista de todos los servicios
+ * @param pLLService LinkedList
  */
 void Servicios_list(LinkedList* pLLService){
 	char res;
@@ -140,6 +139,13 @@ void Servicios_list(LinkedList* pLLService){
 	printf("===========================================================================================================\n");
 }
 
+/**
+ * @brief se usa para obtener datos de los elementos pasados por parametros y luego los compara
+ * @param Service1 elemento 1
+ * @param Service2 elemento 2
+ * @return si es verdadera la comparacion devuelve 1
+ * 		   si es falsa la compararacion devuelve 0
+ */
 int Service_sortByDescription(void* Service1,void* Service2){
 	int retorno;
 
@@ -201,9 +207,9 @@ int GuardarTxt(FILE* pFile,LinkedList* pLLService){
 }
 
 /**
- * @brief se usa para poder convertir tipo de pasajero en numero a su contraparte en cadena de texto
- * @param tipoPasajero numero referenciando a uno de sus modos en texto
- * @param tipoPasajeroC cadena de texto a la que referencia el numero con el que se guarda en la estructura
+ * @brief se usa para poder convertir tipo de servicio en numero a su contraparte en cadena de texto
+ * @param tipoServicio numero referenciando a uno de sus modos en texto
+ * @param tipoServicioC cadena de texto a la que referencia el numero con el que se guarda en la estructura
  * @return retorna siempre 1
  */
 int itocTipoPasajero(int tipoServicio,char* tipoServicioC){
@@ -222,6 +228,10 @@ int itocTipoPasajero(int tipoServicio,char* tipoServicioC){
 	return 1;
 }
 
+/**
+ * @brief calcula precio total del elemento pasado por parametro
+ * @param this elemento para calcularle el precio total
+ */
 void* Servicios_calcularPrecioTotal(void* this){
 
 	if(this != NULL){
@@ -241,8 +251,8 @@ void* Servicios_calcularPrecioTotal(void* this){
 
 //SETTERS
 /**
- * @brief setea un id en el pasajero
- * @param this pasajero
+ * @brief setea un id en el servicio
+ * @param this servicio
  * @param id numero de id
  * @return devuele 1 si se hizo bien 0 si hubo un error
  */
@@ -259,8 +269,8 @@ int Servicios_setId(eServicios* this,int id){
 }
 
 /**
- * @brief setea un nombre en el pasajero
- * @param this pasajero
+ * @brief setea una descripcion en el servicio
+ * @param this servicio
  * @param nombre cadena de texto de nombre
  * @return devuele 1 si se hizo bien 0 si hubo un error
  */
@@ -277,9 +287,9 @@ int Servicios_setDescripcion(eServicios* this,char* descripcion){
 
 
 /**
- * @brief setea un tipo de pasajero en el pasajero
- * @param this pasajero
- * @param tipoPasajero numero de tipo de pasajero
+ * @brief setea un tipo de servicio en el servicio
+ * @param this servicio
+ * @param tipoServicio numero de tipo de servicio
  * @return devuele 1 si se hizo bien 0 si hubo un error
  */
 int Servicios_setTipoServicio(eServicios* this,int tipoServicio){
@@ -294,8 +304,8 @@ int Servicios_setTipoServicio(eServicios* this,int tipoServicio){
 }
 
 /**
- * @brief setea un precio en el pasajero
- * @param this pasajero
+ * @brief setea un precio Unitario en el servicio
+ * @param this servicio
  * @param precio numero flotante
  * @return devuele 1 si se hizo bien 0 si hubo un error
  */
@@ -311,8 +321,8 @@ int Servicios_setPrecioUnit(eServicios* this,float precioUnitario){
 }
 
 /**
- * @brief setea un precio en el pasajero
- * @param this pasajero
+ * @brief setea una cantidad en el servicio
+ * @param this servicio
  * @param precio numero flotante
  * @return devuele 1 si se hizo bien 0 si hubo un error
  */
@@ -328,8 +338,8 @@ int Servicios_setCantidad(eServicios* this,int cant){
 }
 
 /**
- * @brief setea un precio en el pasajero
- * @param this pasajero
+ * @brief setea un precio Total en el servicio
+ * @param this servicio
  * @param precio numero flotante
  * @return devuele 1 si se hizo bien 0 si hubo un error
  */
@@ -381,9 +391,9 @@ int Servicios_getDescripcion(eServicios* this,char* descripcion){
 }
 
 /**
- * @brief obtiene el tipo de pasajero (en numero) y lo pasa por parametro
+ * @brief obtiene el tipo de servicio (en numero) y lo pasa por parametro
  * @param this
- * @param tipo de pasajero (en numero)
+ * @param tipo de servicio (en numero)
  * @return retorna 1 si devuelve bien y 0 si hay un error
  */
 int Servicios_getTipoServicio(eServicios* this,int* tipoPasajero){

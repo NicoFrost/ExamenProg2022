@@ -7,6 +7,13 @@
 #include "filters.h"
 #include "Service.h"
 
+/**
+ * funcion filtradora por minorista
+ * @param this elemento a filtrar
+ * @return 1 si el filtro es verdadero
+ * 		   0 si el elemento pasado es NULL o si el filtro es falso
+ *
+ */
 int filter_porMinorista(void* this){
 	int retorno = 0;
 	int tipo;
@@ -19,6 +26,14 @@ int filter_porMinorista(void* this){
 
 	return retorno;
 }
+
+/**
+ * funcion filtradora por mayorista
+ * @param this elemento a filtrar
+ * @return 1 si el filtro es verdadero
+ * 		   0 si el elemento pasado es NULL o si el filtro es falso
+ *
+ */
 int filter_porMayorista(void* this){
 	int retorno = 0;
 	int tipo;
@@ -31,6 +46,14 @@ int filter_porMayorista(void* this){
 
 	return retorno;
 }
+
+/**
+ * funcion filtradora por exportar
+ * @param this elemento a filtrar
+ * @return 1 si el filtro es verdadero
+ * 		   0 si el elemento pasado es NULL o si el filtro es falso
+ *
+ */
 int filter_porExportar(void* this){
 	int retorno = 0;
 	int tipo;

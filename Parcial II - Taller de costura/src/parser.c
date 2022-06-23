@@ -5,14 +5,14 @@
 #include "Service.h"
 #include "parser.h"
 
-/** \brief Parsea los datos los datos de los servicios desde el archivo data.csv (modo texto).
+#define TAM 50
+/** \brief Parsea los datoss de los servicios desde el archivo enviado por parametro
  *
- * \param path char*
- * \param pLLService LinkedList*
- * \return int
+ * \param pLLService LinkedList* linkedlist en donde dejar resultados
+ * \return int 0 en caso de que funcione correctamente
+ * 			   -1 si los datos no se pueden escanear correctamente
  *
  */
-#define TAM 50
 int parser_ServiceFromText(FILE* pFile , LinkedList* pLLService)
 {
 	char fid[20];

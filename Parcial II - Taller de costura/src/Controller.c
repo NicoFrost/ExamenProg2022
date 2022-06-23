@@ -4,11 +4,13 @@
 #include "parser.h"
 #include "filters.h"
 #define TAM 50
-/** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
+
+/** \brief Carga los datos desde un archivo el cual es pedido al principio.
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param LinkedList* pLLService
+ * \return int 0 si funciona correctamente.
+ * 			  (-1) si la lista es NULL o si los datos no son cargados correctamente
+ * 			  o no se puede abrir el archivo o no se encontro
  *
  */
 int controller_loadFromText(LinkedList* pLLService)
@@ -34,10 +36,9 @@ int controller_loadFromText(LinkedList* pLLService)
 	return retorno;
 }
 
-/** \brief Listar pasajeros
+/** \brief Listar servicio
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
+ * \param pLLService LinkedList*
  * \return int
  *
  */
@@ -49,6 +50,11 @@ int controller_listService(LinkedList* pLLService)
     return 0;
 }
 
+/**
+ * \brief asigna totales a los elementos de la lista con la funcion ll_map, pasada por parametro
+ * \param pLLService LinkedList
+ * \return 0 si funciona correctamente -1 si la lista pasada es NULL o el mapeo sale mal
+ */
 int controller_assignTotal(LinkedList* pLLService){
 
 	int retorno = -1;
@@ -61,6 +67,14 @@ int controller_assignTotal(LinkedList* pLLService){
 	return retorno;
 }
 
+/**
+ * @brief crea un archivo de datos con el nombre pasado por parametro y con los datos filtrados
+ * @param path nombre del nuevo archivo
+ * @param pLLService linkedlist
+ * @return retorna 0 si funciona correctamente
+ * 					o -1 si la linkedlist es NULL
+ * 					o la apertura  del archivo sale mal o el filtrado no se hace correctamente
+ */
 int controller_createDataFiltred(char* path,LinkedList* pLLService){
 	FILE* pArchivo;
 	int retorno = -1;
@@ -105,9 +119,11 @@ int controller_createDataFiltred(char* path,LinkedList* pLLService){
 
 /** \brief Ordenar pasajeros
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param pLLService LinkedList*
+ * \return int retorna 0 si funciona correctamente
+ * 					   -1 si la lista pasada por parametro es NULL
+ * 					   	o si la lista clonada se crea mal
+ * 					   	o si el ordenamiento tira un ERROR
  *
  */
 int controller_sortlistServices(LinkedList* pLLService)
@@ -130,11 +146,13 @@ int controller_sortlistServices(LinkedList* pLLService)
     return retorno;
 }
 
-/** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
+/** \brief Guarda los datos de los servicios en el archivo con el nombre pasado por parametro.
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* nombre del archivo
+ * \param pLLService LinkedList
+ * \return int retorna 0 si funciona correctamente
+ * 					  -1 si la lista es NULL
+ * 					   o si el ordenamiento tira ERROR(-1)
  *
  */
 int controller_saveSortListServices(char* path , LinkedList* pLLService)
@@ -163,13 +181,5 @@ int controller_saveSortListServices(char* path , LinkedList* pLLService)
 	}
 	return retorno;
 }
-
-/** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
- *
- */
 
 
